@@ -1,0 +1,38 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile gradleApi()
+    compile localGroovy()
+    compile 'com.android.tools.build:gradle:2.1.0'
+    compile 'org.aspectj:aspectjtools:1.8.6'
+    compile 'org.aspectj:aspectjrt:1.8.6'
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
+archivesBaseName = "trackerPlugin"
+group='com.infoedge'   //Group name makes easier to manager the packages.
+version='1.0'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('../repo'))
+        }
+    }
+}
+
+buildscript{
+    repositories{
+        jcenter();
+    }
+}
+
+
+repositories{
+    mavenCentral()
+}
