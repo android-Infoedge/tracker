@@ -1,10 +1,10 @@
 # tracker
 
-Tracking the user interation before crash occurs and using that data in crash repoting.
+Tracking the user interaction before crash occurs and using that data in crash reporting.
 
-Crash repoting is one of the most important tast that help in the improvement of an application. But sometimes even if we have the stacktrace of crash we are not able to track the cause of the crash , as it might have been due to series of user interaction steps that lead to such a result.
+Crash reporting is one of the most important task that help in the improvement of an application. But sometimes even if we have the stacktrace of crash we are not able to track the cause of the crash , as it might have been due to series of user interaction steps that lead to such a result.
 
-So this library is focussed towards tracking of user interation. Basically tracking the method calls that occured during the whole process.
+So this library is focused towards tracking of user interaction. Basically tracking the method calls that occurred during the whole process.
 
 ###Usage
 
