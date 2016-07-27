@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Looper;
 import android.os.Trace;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -29,7 +30,7 @@ public class TraceAspect {
     private static volatile boolean trackingEnabled = true;
     private static volatile boolean loggingEnabled = true;
 
-    @Pointcut("within(@com.infoedge.tracker.TracePath *)")
+    @Pointcut("within(@com.infoedge.trackerBinder.TracePath *)")
     public void withinAnnotatedClass() {
     }
 
@@ -41,11 +42,11 @@ public class TraceAspect {
     public void constructorInsideAnnotatedType() {
     }
 
-    @Pointcut("execution(@com.infoedge.tracker.TracePath * *(..)) || methodInsideAnnotatedType()")
+    @Pointcut("execution(@com.infoedge.trackerBinder.TracePath * *(..)) || methodInsideAnnotatedType()")
     public void method() {
     }
 
-    @Pointcut("execution(@com.infoedge.tracker.TracePath *.new(..)) || constructorInsideAnnotatedType()")
+    @Pointcut("execution(@com.infoedge.trackerBinder.TracePath *.new(..)) || constructorInsideAnnotatedType()")
     public void constructor() {
     }
 
@@ -83,21 +84,25 @@ public class TraceAspect {
         Object[] parameterValues = joinPoint.getArgs();
 
         String tag = "";
+        String methodNameOverride = "";
+        String classNameOverride = "";
         if (codeSignature instanceof MethodSignature) {
             MethodSignature methodSignature = (MethodSignature) codeSignature;
             Method m = methodSignature.getMethod();
             TracePath tracePath = m.getAnnotation(TracePath.class);
             if (tracePath != null) {
                 tag = tracePath.TAG();
+                methodNameOverride = tracePath.methodName();
+                classNameOverride = tracePath.className();
             }
         }
 
         StringBuilder builder = new StringBuilder(tag);
         builder.append(" \u21E2 ")
                 .append("[")
-                .append(asTag(cls))
+                .append(TextUtils.isEmpty(methodNameOverride) ? asTag(cls) : classNameOverride)
                 .append("] ")
-                .append(methodName)
+                .append(TextUtils.isEmpty(methodNameOverride) ? methodName : methodNameOverride)
                 .append('(');
 
         for (int i = 0; i < parameterValues.length; i++) {
@@ -105,17 +110,21 @@ public class TraceAspect {
                 builder.append(", ");
             }
             builder.append(parameterNames[i]).append('=');
-            if (/*parameterTypes[i] == View.class*/parameterValues[i] instanceof View) {
+            if (parameterValues[i] instanceof View) {
                 View view = (View) parameterValues[i];
                 Resources resources = view.getContext().getResources();
                 int id = view.getId();
-                String typename = resources.getResourceTypeName(id);
-                String entryname = resources.getResourceEntryName(id);
-                builder.append(" ");
-                builder.append(typename);
-                builder.append("/");
-                builder.append(entryname);
-                builder.append(" ");
+                try {
+                    String typename = resources.getResourceTypeName(id);
+                    String entryname = resources.getResourceEntryName(id);
+                    builder.append(" ");
+                    builder.append(typename);
+                    builder.append("/");
+                    builder.append(entryname);
+                    builder.append(" ");
+                } catch (Resources.NotFoundException nfe) {
+                    builder.append(Strings.toString(parameterValues[i]));
+                }
             } else {
                 builder.append(Strings.toString(parameterValues[i]));
             }

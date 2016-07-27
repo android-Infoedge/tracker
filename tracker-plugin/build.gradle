@@ -1,5 +1,7 @@
 apply plugin: 'groovy'
 apply plugin: 'maven'
+apply plugin: "com.jfrog.bintray"
+apply plugin: 'maven-publish'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -16,7 +18,7 @@ targetCompatibility = "1.7"
 
 archivesBaseName = "trackerPlugin"
 group='com.infoedge'   //Group name makes easier to manager the packages.
-version='1.0'
+version='1.2'
 
 uploadArchives {
     repositories {
@@ -26,13 +28,38 @@ uploadArchives {
     }
 }
 
-buildscript{
-    repositories{
-        jcenter();
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = properties.getProperty('bintray.user')
+    key = properties.getProperty('bintray.apikey')
+    publications = ['MyPublication']
+    pkg {
+        repo = 'maven'
+        name = 'com.infoedge.tracker:tracker-plugin'
+        userOrg = user
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/android-Infoedge/tracker.git'
+
+        version {
+            name = '1.2'
+            desc = 'Gradle plugin to track the user interaction which can be used in case of system crash'
+            gpg {
+                sign = true //Determines whether to GPG sign the files. The default is false
+                passphrase = properties.getProperty("bintray.gpg.password")
+                //Optional. The passphrase for GPG signing'
+            }
+        }
     }
 }
 
-
-repositories{
-    mavenCentral()
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            from components.java
+            groupId 'com.infoedge.tracker'
+            artifactId 'tracker-plugin'
+            version '1.2'
+        }
+    }
 }

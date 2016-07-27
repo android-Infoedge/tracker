@@ -1,13 +1,24 @@
 package com.example.tracker;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+import com.infoedge.trackerBinder.TracePath;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
+    @TracePath
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        findViewById(R.id.tv).setOnClickListener(this);
+    }
+
+    @Override
+    @TracePath
+    public void onClick(View view) {
+
     }
 }

@@ -28,9 +28,16 @@ class TrackerPlugin implements Plugin<Project> {
             variants = project.android.libraryVariants
         }
 
+        project.repositories{
+            maven {
+                url 'https://dl.bintray.com/android-infoedge/maven/'
+            }
+        }
+
         project.dependencies {
             // TODO this should come transitively
             compile 'org.aspectj:aspectjrt:1.8.6'
+            compile 'com.infoedge.tracker:tracker-aspect:1.3'
         }
 
         project.extensions.create('tracker', TrackerExtension.class)

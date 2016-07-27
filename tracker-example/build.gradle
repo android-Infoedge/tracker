@@ -23,4 +23,23 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.1.1'
+    apply plugin: 'com.infoedge.tracker'
+}
+
+buildscript {
+
+    repositories {
+        mavenCentral()
+        /*maven {
+            url uri('../repo/')
+        }*/
+        maven {
+            url 'https://dl.bintray.com/android-infoedge/maven/'
+        }
+    }
+    dependencies {
+        //classpath group: 'com.infoedge', name: 'trackerPlugin',
+        //      version: '1.0'
+        classpath 'com.infoedge.tracker:tracker-plugin:1.0'
+    }
 }

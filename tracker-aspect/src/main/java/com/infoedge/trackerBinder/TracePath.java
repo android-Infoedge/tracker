@@ -9,8 +9,10 @@ import java.lang.annotation.Target;
  * Created by nishant on 20/7/16.
  */
 
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.CONSTRUCTOR, ElementType.METHOD})
 public @interface TracePath {
     String TAG() default "";
+    String methodName() default "";
+    String className() default "";
 }
