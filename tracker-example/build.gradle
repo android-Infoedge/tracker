@@ -40,6 +40,6 @@ buildscript {
     dependencies {
         //classpath group: 'com.infoedge', name: 'trackerPlugin',
         //      version: '1.0'
-        classpath 'com.infoedge.tracker:tracker-plugin:1.0'
+        classpath 'com.infoedge.tracker:tracker-plugin:1.3'
     }
 }

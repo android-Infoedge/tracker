@@ -28,7 +28,7 @@ include in build.gradle:-
         }
         
         dependencies {
-            classpath 'com.infoedge.tracker:tracker-plugin:1.2'
+            classpath 'com.infoedge.tracker:tracker-plugin:1.3'
         }
     }
 
@@ -71,13 +71,17 @@ To print all the event list :-
                                                                  QD_CLICK ⇢ [myclass] myclick(v= id/bt_follow_button )
                                                                  QD_CLICK ⇢ [myclass] myclick(v= id/bt_follow_button )
 
+To change the size of CapturedEventsContainer (default 50):-
+
+    CapturedEventsContainer.getInstance().setEventListSize(30);
+
 ##References
 
 This is an extension to the [Hugo](https://github.com/JakeWharton/hugo) library by [Jake Wharten](https://github.com/JakeWharton)
 
 ##License
 
-Copyright 2013
+Copyright 2016 Info Edge India Limited
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

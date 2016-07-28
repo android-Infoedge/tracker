@@ -37,7 +37,7 @@ class TrackerPlugin implements Plugin<Project> {
         project.dependencies {
             // TODO this should come transitively
             compile 'org.aspectj:aspectjrt:1.8.6'
-            compile 'com.infoedge.tracker:tracker-aspect:1.3'
+            compile 'com.infoedge.tracker:tracker-aspect:1.4'
         }
 
         project.extensions.create('tracker', TrackerExtension.class)

@@ -40,4 +40,16 @@ public class CapturedEventsContainer {
         }
         return builder.toString();
     }
+
+    public void setEventListSize(int size) {
+        if (size < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        mEventsListSize = size;
+
+        while (mEvents.size() > size) {
+            mEvents.removeLast();
+        }
+    }
 }
